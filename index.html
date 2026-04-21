@@ -1,0 +1,696 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Exit Protocol — For Indian Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #080808;
+    --surface: #101010;
+    --surface-2: #161616;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.16);
+    --text: #ede9e0;
+    --muted: #777;
+    --muted-2: #555;
+    --accent: #d4ff5c;
+    --accent-dim: rgba(212,255,92,0.12);
+    --accent-dark: #b8e040;
+    --danger: #ff5c5c;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  nav {
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .nav-tag {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero { padding: 72px 0 56px; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 8vw, 62px);
+    font-weight: 800;
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .line-accent { color: var(--accent); }
+  .line-dim { color: #555; }
+  .hero-body {
+    font-size: 16px;
+    color: #999;
+    line-height: 1.75;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+  .hero-body strong { color: var(--text); font-weight: 500; }
+  .stats-row {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .stat {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .section {
+    padding: 56px 0;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 28px;
+  }
+  .problem-statement {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 32px;
+  }
+  .problem-statement em { font-style: normal; color: var(--accent); }
+  .pain-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .pain-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .pain-icon {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-top: 3px;
+    min-width: 18px;
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .pain-text { font-size: 14px; color: #aaa; line-height: 1.55; }
+  .pain-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 3px; }
+  .callout {
+    padding: 22px 22px 22px 20px;
+    border-left: 2px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 8px 8px 0;
+    margin-top: 32px;
+  }
+  .callout p {
+    font-size: 14px;
+    font-style: italic;
+    color: #bbb;
+    line-height: 1.6;
+  }
+  .teaser-intro {
+    font-size: 15px;
+    color: #888;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .teaser-intro strong { color: var(--text); font-weight: 500; }
+  .layers {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .layer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .layer:last-child { border-bottom: none; }
+  .layer:hover { background: var(--surface-2); }
+  .layer-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted-2);
+    min-width: 20px;
+  }
+  .layer-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .layer-week {
+    font-size: 11px;
+    color: var(--muted-2);
+    white-space: nowrap;
+  }
+  .layer-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .teaser-note {
+    font-size: 12px;
+    color: var(--muted-2);
+    margin-top: 14px;
+    font-style: italic;
+  }
+  .transform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .transform-col {
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .transform-col.before {
+    background: rgba(255,92,92,0.04);
+    border-color: rgba(255,92,92,0.12);
+  }
+  .transform-col.after {
+    background: rgba(212,255,92,0.04);
+    border-color: rgba(212,255,92,0.12);
+  }
+  .transform-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .transform-col.before .transform-label { color: #ff5c5c; }
+  .transform-col.after .transform-label { color: var(--accent); }
+  .transform-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .transform-list li {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.4;
+    padding-left: 14px;
+    position: relative;
+  }
+  .transform-col.before .transform-list li::before {
+    content: '—'; position: absolute; left: 0; color: #ff5c5c; font-size: 11px;
+  }
+  .transform-col.after .transform-list li { color: #bbb; }
+  .transform-col.after .transform-list li::before {
+    content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 11px;
+  }
+  .form-section {
+    padding: 56px 0 80px;
+    border-top: 1px solid var(--border);
+  }
+  .form-header { margin-bottom: 40px; }
+  .form-header h2 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .form-header p { font-size: 14px; color: var(--muted); margin-top: 10px; }
+  .question {
+    margin-bottom: 28px;
+    padding: 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.2s;
+  }
+  .question:focus-within { border-color: rgba(212,255,92,0.2); }
+  .q-num {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .q-text {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 18px;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .option:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.02); }
+  .option input[type="radio"] { display: none; }
+  .radio-dot {
+    width: 17px; height: 17px; min-width: 17px;
+    border: 1.5px solid #333;
+    border-radius: 50%;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .radio-dot::after {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transform: scale(0.3);
+    transition: all 0.15s;
+  }
+  .option input[type="radio"]:checked + .radio-dot { border-color: var(--accent); }
+  .option input[type="radio"]:checked + .radio-dot::after { opacity: 1; transform: scale(1); }
+  .option-label { font-size: 14px; line-height: 1.5; color: #999; transition: color 0.15s; }
+  .option:has(input:checked) {
+    border-color: rgba(212,255,92,0.25);
+    background: rgba(212,255,92,0.03);
+  }
+  .option:has(input:checked) .option-label { color: var(--text); }
+  .error-msg { display: none; font-size: 12px; color: var(--danger); margin-top: 10px; }
+  .submit-wrap { margin-top: 8px; }
+  .btn-submit {
+    width: 100%;
+    padding: 18px 32px;
+    background: var(--accent);
+    color: #080808;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .btn-submit:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .form-note { text-align: center; font-size: 12px; color: var(--muted-2); margin-top: 12px; }
+  .success-screen { display: none; padding: 80px 0; text-align: center; }
+  .success-mark {
+    width: 52px; height: 52px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(212,255,92,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 20px;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .success-screen h2 { font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+  .success-screen p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+  .spinner {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-top-color: #080808;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle; margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  footer p { font-size: 12px; color: #444; }
+  @media (max-width: 520px) {
+    .transform-grid { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .hero { padding: 52px 0 40px; }
+    .question { padding: 20px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <span class="nav-logo">90-Day Exit Protocol</span>
+    <span class="nav-tag">Early Validation · India</span>
+  </nav>
+  <section class="hero">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      Pre-launch survey · India only
+    </div>
+    <h1>
+      Your notice period<br>
+      is not a <span class="line-dim">waiting room.</span><br>
+      <span class="line-accent">It's your leverage.</span>
+    </h1>
+    <p class="hero-body">
+      Most Indian developers spend their 90-day notice period refreshing Naukri and feeling stuck.
+      <strong>The top 5% use it to engineer their next move — systematically.</strong>
+      We're building a product for that 5%. Help us validate if this problem is real.
+    </p>
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num">5M+</span>
+        <span class="stat-label">Indian software developers</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">90</span>
+        <span class="stat-label">Days. Notice period window</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2×</span>
+        <span class="stat-label">Target salary outcome</span>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <p class="section-label">The problem</p>
+    <p class="problem-statement">
+      AI isn't replacing developers.<br>
+      It's replacing developers <em>without a plan.</em>
+    </p>
+    <div class="pain-list">
+      <div class="pain-item">
+        <span class="pain-icon">01</span>
+        <p class="pain-text">
+          <strong>Notice period friction</strong>
+          Recruiters avoid long-notice candidates. You lose momentum in the highest-anxiety window of your career — with no playbook to navigate it.
+        </p>
+      </div>
+      <div class="pain-item">
+        <span class="pain-icon">02</span>
+        <p class="pain-text">
+          <strong>Skill stagnation</strong>
+          Service work doesn't prepare you for product engineering interviews. DSA, system design, GitHub — all underdeveloped. You already know this.
+        </p>
+      </div>
+      <div class="pain-item">
+        <span class="pain-icon">03</span>
+        <p class="pain-text">
+          <strong>AI disruption anxiety</strong>
+          Fear of being replaced is real. But the actual risk isn't AI — it's staying stagnant while AI-fluent developers move ahead of you.
+        </p>
+      </div>
+    </div>
+    <div class="callout">
+      <p>"Developers already have access to DSA courses, YouTube, and AI tools. What they're missing is a structured execution system built around their actual 90-day constraint."</p>
+    </div>
+  </section>
+  <section class="section">
+    <p class="section-label">What we're building</p>
+    <p class="teaser-intro">
+      Not a course. Not another YouTube playlist.<br>
+      <strong>A time-bound execution system</strong> — designed specifically around India's 90-day notice period reality.
+    </p>
+    <div class="layers">
+      <div class="layer">
+        <span class="layer-num">01</span>
+        <span class="layer-name">Exit Strategy</span>
+        <span class="layer-week">Week 0–1</span>
+      </div>
+      <div class="layer">
+        <span class="layer-num">02</span>
+        <span class="layer-name">Skill Gap Sprint</span>
+        <span class="layer-week">Week 1–6</span>
+      </div>
+      <div class="layer">
+        <span class="layer-num">03</span>
+        <span class="layer-name">AI Upskilling Stack <span class="layer-tag">Key differentiator</span></span>
+        <span class="layer-week"></span>
+      </div>
+      <div class="layer">
+        <span class="layer-num">04</span>
+        <span class="layer-name">Interview System</span>
+        <span class="layer-week">Week 6–10</span>
+      </div>
+      <div class="layer">
+        <span class="layer-num">05</span>
+        <span class="layer-name">Offer Closure</span>
+        <span class="layer-week">Week 10–12</span>
+      </div>
+    </div>
+    <p class="teaser-note">Full details coming soon. Your survey answers shape what gets built first.</p>
+    <div class="transform-grid">
+      <div class="transform-col before">
+        <p class="transform-label">Before</p>
+        <ul class="transform-list">
+          <li>Stuck in a service company</li>
+          <li>Idle, anxious notice period</li>
+          <li>Fear of AI replacing you</li>
+          <li>Random, unfocused prep</li>
+        </ul>
+      </div>
+      <div class="transform-col after">
+        <p class="transform-label">After</p>
+        <ul class="transform-list">
+          <li>Product-ready engineer</li>
+          <li>Strategic 90-day execution</li>
+          <li>AI-powered with an edge</li>
+          <li>Structured, outcome-driven</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="form-section">
+    <div class="form-header">
+      <h2>Is this problem real for you?<br>Tell us in 2 minutes.</h2>
+      <p>5 questions. MCQ only. Your answers decide whether we build this.</p>
+    </div>
+    <form id="surveyForm" novalidate>
+      <div class="question" id="q1-block">
+        <span class="q-num">Question 01 / 05</span>
+        <p class="q-text">What's your current situation?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" value="On notice period right now"><span class="radio-dot"></span><span class="option-label">I'm on notice period right now</span></label>
+          <label class="option"><input type="radio" name="q1" value="Employed but worried about layoffs"><span class="radio-dot"></span><span class="option-label">I'm employed but actively worried about layoffs</span></label>
+          <label class="option"><input type="radio" name="q1" value="Employed and planning to switch proactively"><span class="radio-dot"></span><span class="option-label">I'm employed and planning to switch proactively</span></label>
+        </div>
+        <p class="error-msg" id="q1-error">Please pick an option to continue.</p>
+      </div>
+      <div class="question" id="q2-block">
+        <span class="q-num">Question 02 / 05</span>
+        <p class="q-text">How long have you been trying to land a new dev job — or how long do you think it'll take?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q2" value="Less than 1 month"><span class="radio-dot"></span><span class="option-label">Less than 1 month</span></label>
+          <label class="option"><input type="radio" name="q2" value="1–3 months"><span class="radio-dot"></span><span class="option-label">1–3 months</span></label>
+          <label class="option"><input type="radio" name="q2" value="3–6 months"><span class="radio-dot"></span><span class="option-label">3–6 months</span></label>
+          <label class="option"><input type="radio" name="q2" value="I don't even know where to start"><span class="radio-dot"></span><span class="option-label">I don't even know where to start</span></label>
+        </div>
+        <p class="error-msg" id="q2-error">Please pick an option to continue.</p>
+      </div>
+      <div class="question" id="q3-block">
+        <span class="q-num">Question 03 / 05</span>
+        <p class="q-text">What's your biggest blocker right now?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3" value="No structured plan — don't know what to do first"><span class="radio-dot"></span><span class="option-label">No structured plan — don't know what to do first</span></label>
+          <label class="option"><input type="radio" name="q3" value="Weak resume or portfolio"><span class="radio-dot"></span><span class="option-label">Weak resume or portfolio</span></label>
+          <label class="option"><input type="radio" name="q3" value="Failing interviews or DSA rounds"><span class="radio-dot"></span><span class="option-label">Failing interviews or DSA rounds</span></label>
+          <label class="option"><input type="radio" name="q3" value="No referrals or network"><span class="radio-dot"></span><span class="option-label">No referrals or network</span></label>
+          <label class="option"><input type="radio" name="q3" value="All of the above"><span class="radio-dot"></span><span class="option-label">All of the above, honestly</span></label>
+        </div>
+        <p class="error-msg" id="q3-error">Please pick an option to continue.</p>
+      </div>
+      <div class="question" id="q4-block">
+        <span class="q-num">Question 04 / 05</span>
+        <p class="q-text">If a structured 90-day execution system existed to help you land a new dev job — would you use it?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q4" value="Yes, I'd buy it immediately"><span class="radio-dot"></span><span class="option-label">Yes — I'd buy it immediately</span></label>
+          <label class="option"><input type="radio" name="q4" value="Yes, but only if it's affordable"><span class="radio-dot"></span><span class="option-label">Yes, but only if it's affordable</span></label>
+          <label class="option"><input type="radio" name="q4" value="Maybe, I'd need to see more"><span class="radio-dot"></span><span class="option-label">Maybe — I'd need to see more first</span></label>
+          <label class="option"><input type="radio" name="q4" value="No, I'll figure it out myself"><span class="radio-dot"></span><span class="option-label">No, I'll figure it out myself</span></label>
+        </div>
+        <p class="error-msg" id="q4-error">Please pick an option to continue.</p>
+      </div>
+      <div class="question" id="q5-block">
+        <span class="q-num">Question 05 / 05</span>
+        <p class="q-text">What price would feel fair for a complete 90-day execution system?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q5" value="₹1,000–₹1,499"><span class="radio-dot"></span><span class="option-label">₹1,000 – ₹1,499</span></label>
+          <label class="option"><input type="radio" name="q5" value="₹1,500–₹2,499"><span class="radio-dot"></span><span class="option-label">₹1,500 – ₹2,499</span></label>
+          <label class="option"><input type="radio" name="q5" value="₹2,500–₹3,999"><span class="radio-dot"></span><span class="option-label">₹2,500 – ₹3,999</span></label>
+          <label class="option"><input type="radio" name="q5" value="₹4,000+"><span class="radio-dot"></span><span class="option-label">₹4,000+ — if it genuinely delivers</span></label>
+        </div>
+        <p class="error-msg" id="q5-error">Please pick an option to continue.</p>
+      </div>
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit" id="submitBtn">Submit my answers →</button>
+        <p class="form-note">Anonymous. 2 minutes. Your answers decide if we build this.</p>
+      </div>
+    </form>
+    <div class="success-screen" id="successScreen">
+      <div class="success-mark">✓</div>
+      <h2>Received. Thank you.</h2>
+      <p>Your answers matter more than you think.<br>We'll be in touch when the protocol is ready.</p>
+    </div>
+  </section>
+  <footer>
+    <p>© 2026 — 90-Day Exit Protocol</p>
+    <p>Not a course. A system.</p>
+  </footer>
+</div>
+<script>
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwAJA-JbQDrkPoXgp3x7nJHxxAojYvHNEFo8gi15pE9rluIzi6y41LwDIL4ui1JHJf2tQ/exec';
+  const form = document.getElementById('surveyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successScreen = document.getElementById('successScreen');
+  function getVal(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : null;
+  }
+  function showError(n, show) {
+    const el = document.getElementById(`q${n}-error`);
+    el.style.display = show ? 'block' : 'none';
+    if (show) document.getElementById(`q${n}-block`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let valid = true;
+    for (let i = 1; i <= 5; i++) {
+      if (!getVal(`q${i}`)) {
+        if (valid) showError(i, true);
+        valid = false;
+      } else {
+        showError(i, false);
+      }
+    }
+    if (!valid) return;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+    const payload = {
+      timestamp: new Date().toISOString(),
+      q1: getVal('q1'), q2: getVal('q2'),
+      q3: getVal('q3'), q4: getVal('q4'), q5: getVal('q5'),
+    };
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) { console.error(err); }
+    form.style.display = 'none';
+    successScreen.style.display = 'block';
+    window.scrollTo({ top: successScreen.offsetTop - 80, behavior: 'smooth' });
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', () => showError(r.name.replace('q', ''), false));
+  });
+</script>
+</body>
+</html>
